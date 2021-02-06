@@ -1,0 +1,26 @@
+@import '../../sass/colors.sass'
+@import '../../sass/fonts.sass'
+
+
+.header
+  color: $pink-orange-color
+  padding: 8px 4px
+  background-color: $blue-color
+  box-sizing: border-box
+  width: 100%
+  height: 44px
+  display: flex
+  justify-content: space-between
+  align-items: center
+  z-index: 200  
+
+  &__title
+    @include title
+    flex: 1        
+
+  &__left
+    display: flex
+    justify-content: center
+    align-items: center
+    width: 30px
+    height: 30px

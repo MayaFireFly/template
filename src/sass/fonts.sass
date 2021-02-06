@@ -1,0 +1,23 @@
+// @import './setupFonts.sass'
+
+@mixin f($font-size, $line-height, $font-weight, $justify-content : flex-start)
+  font-weight: $font-weight
+  font-size: $font-size
+  line-height: $line-height
+  display: flex
+  justify-content: $justify-content
+  align-items: center
+
+@mixin title
+  @include f(18px, 24px, 500, center)
+  text-transform: uppercase
+
+@mixin uppercase
+  @include f(12px, 16px, 600)
+  text-transform: uppercase
+
+@mixin note
+  @include f(8px, 10px, normal)
+
+@mixin normal
+  @include f(12px, 16px, 600)

@@ -1,0 +1,10 @@
+@mixin font-face($font-family, $path)
+  @font-face
+    font-family: $font-family
+    src: url('#{$path}.woff2') format('woff2'), url('#{$path}.woff') format('woff')
+
+@include font-face('Roboto', '../assets/fonts/Roboto-Regular')
+
+@include font-face('SF Pro Display', '../assets/fonts/SFProDisplay-Regular')
+
+@include font-face('IBM Plex Sans', '../assets/fonts/IBMPlexSans-Regular')
