@@ -20,7 +20,6 @@ const Main = () => {
       <div className = 'main'>
         <div className = 'main__row' onClick = {e => {history.push(routes.users.base);}}>Users</div>
         <div className = 'main__row' onClick = {e => history.push(routes.albums.base)}>Albums</div>
-        <div className = 'main__row' onClick = {e => history.push(routes.photos.base)}>Photos</div>
       </div>
     </div>
   );

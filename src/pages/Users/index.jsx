@@ -9,39 +9,28 @@ import back from '../../assets/svg/back.svg';
 import Header from '../../components/Header';
 import Spinner from '../../components/Spinner';
 
-import API from '../../networkers';
-import { setUsers, setSelectedUser } from '../../store/slices/users';
+import { setSelectedUser, setUsers } from '../../store/slices/users';
 
 
 const Users = () => {
   const history = useHistory();
   const match = useRouteMatch();
   const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = useState(true);
   const users = useSelector(state => get(state, ['users', 'users'], []));
+  const loading = useSelector(state => get(state, ['users', 'loading'], false));
   const [usersRows, setUsersRows] = useState([]);  
 
   useEffect(() => {
-    (async () => {
-      try {  
-        const response = await API.users.getUsersList();
-
-        if (response.code === 200) {
-          dispatch(setUsers(response.data));
-        } else {
-          console.log(response.error + ' ' + response.code);
-        }        
-
+    (async () => {      
+      try {
+        await setUsers(dispatch);
       } catch(error) {
         console.log(error);
-  
-      } finally {
-        setIsLoading(false);
       }
     })();    
   }, [dispatch]);
 
-  const renderUsers = useCallback(() => {
+  const renderUsers = useCallback((users) => {
     const rows = users.map((user, idx) => (
       <div className = 'users__row' key = {idx} onClick = {() => {
         dispatch(setSelectedUser(user));
@@ -52,14 +41,14 @@ const Users = () => {
       </div>
     ));
     return rows;
-  }, [users, history, match.url, dispatch]);
+  }, [history, match.url, dispatch]);
 
   useEffect(() => {
-    if (!isLoading) {
-      const rows = renderUsers();
+    if (!loading) {
+      const rows = renderUsers(users);
       setUsersRows(rows);
     }
-  }, [renderUsers, isLoading, users]);
+  }, [renderUsers, loading, users]);
 
   return(
     <div>
@@ -70,7 +59,7 @@ const Users = () => {
       </Header>
 
       <div className = 'users'>
-        {isLoading && <Spinner/>}
+        {loading && <Spinner/>}
 
         {usersRows}
       </div>

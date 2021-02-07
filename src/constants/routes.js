@@ -2,12 +2,8 @@ export const routes = {
   base: '/',
   main: '/main',
   albums: {
-    base: '/authors',
-    view: '/authors/:id'
-  },
-  photos: {
-    base: '/photos',
-    view: '/photos/:id'
+    base: '/albums',
+    view: '/albums/:id'
   },
   users: {
     base: '/users',

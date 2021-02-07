@@ -1,4 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
+//import thunk from 'redux-thunk';
 
 import photosReducer from './slices/photos';
 import albumsReducer from './slices/albums';
@@ -10,5 +11,6 @@ export default configureStore({
     photos: photosReducer,
     albums: albumsReducer,
     users: usersReducer
-  }
+  },
+  //middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk)
 });

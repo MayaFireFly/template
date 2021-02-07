@@ -12,19 +12,43 @@ import { setSelectedUser } from '../../store/slices/users';
 
 
 const User = () => {
-  console.log('User start');
   const history = useHistory();
   const dispatch = useDispatch();
   const user = useSelector(state => get(state, ['users', 'selectedUser'], null));
-  const [userRows, setUserRows] = useState([]);  
+  const [userRows, setUserRows] = useState([]);
 
   const renderUser = useCallback(() => {
-    const rows = Object.keys(user).map(key => (
-      <div className = 'user__row' key = {key}>
-        <div className = 'user__cell'>{key}</div>
-        <div className = 'user__cell'>{user[key]}</div>
-      </div>
-    ));
+    const rows = [];
+
+    if (user) {
+      Object.keys(user).map(key => {
+        if (typeof user[key] === 'object') {
+          const innerProps = [];
+          for(let prop in user[key]) {
+            if (typeof user[key][prop] === 'string') {
+              innerProps.push(
+                <div className = 'user__cell_row' key = {prop}>{user[key][prop]}</div>
+              );
+            }   
+          }
+          rows.push(
+            <div className = 'user__row' key = {key}>
+              <div className = 'user__cell'>{key}</div>
+              <div className = 'user__cell'>{innerProps}</div>
+            </div>
+          );
+        
+        } else {
+          rows.push(
+            <div className = 'user__row' key = {key}>
+              <div className = 'user__cell'>{key}</div>
+              <div className = 'user__cell'>{user[key]}</div>
+            </div>
+          );
+        }        
+      });
+    }   
+
     return rows;
   }, [user]);
 
@@ -41,7 +65,7 @@ const User = () => {
           history.goBack();
         }} />}
       >
-        <p>{user.name ? user.name : 'unknown'}</p>
+        <p>{user && user.name ? user.name : 'unknown'}</p>
       </Header>
 
       <div className = 'user'>
