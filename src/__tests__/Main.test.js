@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider as ReduxProvider } from 'react-redux';
 
-import About from '../pages/About';
+import Main from '../pages/Main';
 import store from '../store';
 
 jest.mock('react-router-dom', () => ({
@@ -15,9 +15,9 @@ jest.mock('react-router-dom', () => ({
 }));
 
 
-describe('About', () => {
-  it('render About without crushing', () => {
+describe('Main', () => {
+  it('render Main without crushing', () => {
     const div = document.createElement('div');
-    ReactDOM.render(<ReduxProvider store = {store}><About/></ReduxProvider>, div);
+    ReactDOM.render(<ReduxProvider store = {store}><Main/></ReduxProvider>, div);
   });       
 });

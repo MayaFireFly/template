@@ -1,20 +1,16 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { useHistory } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { get } from 'lodash';
 
 import './User.sass';
-import back from '../../assets/svg/back.svg';
 
 import Header from '../../components/Header';
-
-import { setSelectedUser } from '../../store/slices/users';
+import Menu from '../../components/Menu';
 
 
 const User = () => {
-  const history = useHistory();
-  const dispatch = useDispatch();
   const user = useSelector(state => get(state, ['users', 'selectedUser'], null));
+  const title = useSelector(state => get(state, ['title', 'title'], 'Template project'));
   const [userRows, setUserRows] = useState([]);
 
   const renderUser = useCallback(() => {
@@ -59,14 +55,11 @@ const User = () => {
 
   return(
     <div>
-      <Header
-        left = { <img src = {back} onClick = {e => {
-          dispatch(setSelectedUser(null));
-          history.goBack();
-        }} />}
-      >
-        <p>{user && user.name ? user.name : 'unknown'}</p>
+      <Header>
+        {user && user.name ? user.name : title}
       </Header>
+
+      <Menu/>
 
       <div className = 'user'>
         {userRows}

@@ -4,10 +4,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { get } from 'lodash';
 
 import './Users.sass';
-import back from '../../assets/svg/back.svg';
 
 import Header from '../../components/Header';
 import Spinner from '../../components/Spinner';
+import Menu from '../../components/Menu';
 
 import { setSelectedUser, setUsers } from '../../store/slices/users';
 
@@ -18,6 +18,7 @@ const Users = () => {
   const dispatch = useDispatch();
   const users = useSelector(state => get(state, ['users', 'users'], []));
   const loading = useSelector(state => get(state, ['users', 'loading'], false));
+  const title = useSelector(state => get(state, ['title', 'title'], 'Template project'));
   const [usersRows, setUsersRows] = useState([]);  
 
   useEffect(() => {
@@ -52,11 +53,11 @@ const Users = () => {
 
   return(
     <div>
-      <Header
-        left = { <img src = {back} onClick = {e => history.goBack() } />}
-      >
-        <p>Users</p>
+      <Header>
+        {title}
       </Header>
+
+      <Menu/>      
 
       <div className = 'users'>
         {loading && <Spinner/>}

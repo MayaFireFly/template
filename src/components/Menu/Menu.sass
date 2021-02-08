@@ -1,0 +1,41 @@
+@import '../../sass/colors.sass'
+@import '../../sass/fonts.sass'
+
+
+.menu
+  color: $pink-orange-color
+  background-color: $blue-color
+  box-sizing: border-box
+  width: 100%
+  height: 22px
+  display: flex
+  flex-direction: column
+  justify-content: flex-end
+  align-items: center
+  z-index: 300 
+
+  &__wrapper
+    display: flex
+    flex-direction: row
+    align-items: center
+    justify-content: center
+    min-width: 300px
+
+  &__item
+    @include uppercase
+    flex: 1
+    cursor: pointer
+    min-width: 75px
+    text-align: center
+    align-items: center
+    justify-content: center
+
+    &-active
+      background-color: $pink-orange-color
+      color: $blue-color
+
+  &__item:hover
+    opacity: 70% 
+
+  &__item:active
+    opacity: 50%

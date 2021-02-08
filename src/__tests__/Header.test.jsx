@@ -9,11 +9,6 @@ import back from '../assets/svg/back.svg';
 describe('Header', () => {
   it('render Header without crushing', () => {
     const div = document.createElement('div');
-    ReactDOM.render(
-      <Header left = { <img src = {back} onClick = {e => console.log('Header left clicked') } />}>
-        Children
-      </Header>, 
-      div
-    );
+    ReactDOM.render(<Header>Children</Header>, div);
   });       
 });

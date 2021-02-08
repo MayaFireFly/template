@@ -4,10 +4,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { get } from 'lodash';
 
 import './Albums.sass';
-import back from '../../assets/svg/back.svg';
 
 import Header from '../../components/Header';
 import Spinner from '../../components/Spinner';
+import Menu from '../../components/Menu';
 
 import { setAlbums, setSelectedAlbum } from '../../store/slices/albums';
 
@@ -18,6 +18,7 @@ const Albums = () => {
   const dispatch = useDispatch();
   const albums = useSelector(state => get(state, ['albums', 'albums'], []));
   const loading = useSelector(state => get(state, ['albums', 'loading'], false));
+  const title = useSelector(state => get(state, ['title', 'title'], 'Template project'));
   const [albumsRows, setAlbumsRows] = useState([]);  
 
   useEffect(() => {
@@ -51,11 +52,11 @@ const Albums = () => {
 
   return(
     <div>
-      <Header
-        left = { <img src = {back} onClick = {e => history.goBack() } />}
-      >
-        <p>Albums</p>
+      <Header>
+        {title}
       </Header>
+
+      <Menu/>
 
       <div className = 'albums'>
         {loading && <Spinner/>}
