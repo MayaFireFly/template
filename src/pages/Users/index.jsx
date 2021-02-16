@@ -34,7 +34,7 @@ const Users = () => {
   const renderUsers = useCallback((users) => {
     const rows = users.map((user, idx) => (
       <div className = 'users__row' key = {idx} onClick = {() => {
-        dispatch(setSelectedUser(user));
+        dispatch(setSelectedUser(user.id));
         history.push(match.url + '/' + user.id);
       }}>
         <div className = 'users__cell'>{user.username}</div>

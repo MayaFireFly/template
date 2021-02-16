@@ -27,7 +27,7 @@ const usersSlice = createSlice({
   },
   reducers: {
     setSelectedUser(state, action) {
-      state.selectedUser = action.payload;
+      state.selectedUser = state.users.find(user => user.id == action.payload);
     },
     usersLoading(state, action) {
       if (!state.loading) {

@@ -11,6 +11,9 @@ jest.mock('react-router-dom', () => ({
   }),
   useRouteMatch: () => ({
     push: jest.fn()
+  }),
+  useParams: () => ({
+    push: jest.fn()
   })
 }));
 

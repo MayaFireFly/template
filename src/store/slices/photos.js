@@ -27,12 +27,9 @@ const photosSlice = createSlice({
     error: null
   },
   reducers: {
-    setSelectedPhoto(state, action) {
-      state.selectedPhoto = action.payload;
-    },
     setSelectedPhotos(state, action) {
       if (action.payload) {
-        state.selectedPhotos = state.photos.filter(photo => photo.albumId === action.payload);
+        state.selectedPhotos = state.photos.filter(photo => photo.albumId == action.payload);
       } else {
         state.selectedPhotos = [];
       }      

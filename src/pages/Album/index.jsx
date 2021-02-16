@@ -1,61 +1,99 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { get } from 'lodash';
+import { useParams } from 'react-router-dom';
 
 import './Album.sass';
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
 import Header from '../../components/Header';
 import Spinner from '../../components/Spinner';
 import Menu from '../../components/Menu';
+import { Carousel } from 'react-responsive-carousel';
 
-import { setPhotos, setSelectedPhoto, setSelectedPhotos } from '../../store/slices/photos';
+import { setPhotos, setSelectedPhotos } from '../../store/slices/photos';
+import { setAlbums, setSelectedAlbum } from '../../store/slices/albums';
 
 
 const Album = () => {
   const dispatch = useDispatch();
   const album = useSelector(state => get(state, ['albums', 'selectedAlbum'], null));
+  const albums = useSelector(state => state.albums.albums);
   const photos = useSelector(state => get(state, ['photos', 'photos'], []));
   const photosSelected = useSelector(state => get(state, ['photos', 'selectedPhotos'], []));
-  const loading = useSelector(state => get(state, ['photos', 'loading'], false));
+  const loadingAlbums = useSelector(state => get(state, ['albums', 'loading'], false));
+  const loadingPhotos = useSelector(state => get(state, ['photos', 'loading'], false));
+  const loading = loadingAlbums ?? loadingPhotos;
   const title = useSelector(state => get(state, ['title', 'title'], 'Template project'));
   const [albumRows, setAlbumRows] = useState([]);
+  const { id } = useParams();
 
   const renderAlbum = useCallback(() => {
     const rows = [];
-    const photosForRows = photosSelected.length > 0 ? photosSelected : photos;
-    photosForRows.map((photo, idx) => {
+    photosSelected.map((photo, idx) => {
       rows.push(
-        <img 
-          className = 'album__image' 
-          src = {photo.thumbnailUrl} 
-          key = {idx} 
-          onClick = {() => dispatch(setSelectedPhoto(photo))}
-          alt = {photo.title}
-        />
+        <div key = {idx} >
+          <img 
+            //className = 'album__image' 
+            src = {photo.url} 
+            alt = {photo.title}
+          />
+        </div>
       );
     });   
     return rows;
-  }, [dispatch, photos, photosSelected]);
+  }, [photosSelected]);
 
   useEffect(() => {
-    (async () => {      
-      try {
-        await setPhotos(dispatch);
-        if (album) {
-          dispatch(setSelectedPhotos(album.id));
-        }
-      } catch(error) {
-        console.log(error);
-      }
-    })();     
-  }, [dispatch, album]);
+    if (!album) {
+      albums && albums.length > 0 ?
+        (() => {      
+          try {
+            dispatch(setSelectedAlbum(id));
+          } catch(error) {
+            console.log(error);
+          }
+        })() :
 
-  useEffect(() => {
-    if (!loading && photos.length > 0) {
-      const rows = renderAlbum();
-      setAlbumRows(rows);
+        (async () => {      
+          try {
+            await setAlbums(dispatch);
+          } catch(error) {
+            console.log(error);
+          }
+        })();
+
     }
-  }, [renderAlbum, photos, loading]);
+  }, [dispatch, id]);
+
+  useEffect(() => {
+    if (photosSelected.length === 0) {
+      photos && photos.length > 0 ?
+        (() => {      
+          try {
+            dispatch(setSelectedPhotos(id));
+          } catch(error) {
+            console.log(error);
+          }
+        })() :
+
+        (async () => {      
+          try {
+            await setPhotos(dispatch);
+          } catch(error) {
+            console.log(error);
+          }
+        })();
+
+    }
+  }, [dispatch, id, photos.length]);
+
+  useEffect(() => {
+    if (photosSelected.length > 0) {
+      const rows = renderAlbum();
+      setAlbumRows(<div className = 'carousel__wrapper'><Carousel>{rows}</Carousel></div>);
+    }
+  }, [photosSelected, photosSelected.length, renderAlbum, album, title]);
 
   return(
     <div>

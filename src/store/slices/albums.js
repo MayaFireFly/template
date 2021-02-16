@@ -27,7 +27,7 @@ const albumsSlice = createSlice({
   },
   reducers: {
     setSelectedAlbum(state, action) {
-      state.selectedAlbum = action.payload;
+      state.selectedAlbum = state.albums.find(album => album.id == action.payload);
     },
     albumsLoading(state, action) {
       if (!state.loading) {

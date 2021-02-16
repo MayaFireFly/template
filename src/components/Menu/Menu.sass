@@ -20,6 +20,7 @@
     align-items: center
     justify-content: center
     min-width: 300px
+    background-color: $blue-color
 
   &__item
     @include uppercase
@@ -29,10 +30,14 @@
     text-align: center
     align-items: center
     justify-content: center
+    background-color: $blue-color
 
     &-active
-      background-color: $pink-orange-color
+      background-color: $sea-color
       color: $blue-color
+      border: 1px solid $sea-color
+      border-top-left-radius: 5px
+      border-top-right-radius: 5px
 
   &__item:hover
     opacity: 70% 

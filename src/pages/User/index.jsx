@@ -1,17 +1,23 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { get } from 'lodash';
+import { useParams } from 'react-router-dom';
 
 import './User.sass';
 
 import Header from '../../components/Header';
 import Menu from '../../components/Menu';
 
+import { setUsers, setSelectedUser } from '../../store/slices/users';
+
 
 const User = () => {
-  const user = useSelector(state => get(state, ['users', 'selectedUser'], null));
+  const user = useSelector(state => state.users.selectedUser);
+  const users = useSelector(state => state.users.users);
   const title = useSelector(state => get(state, ['title', 'title'], 'Template project'));
+  const dispatch = useDispatch();
   const [userRows, setUserRows] = useState([]);
+  const { id } = useParams();
 
   const renderUser = useCallback(() => {
     const rows = [];
@@ -48,10 +54,32 @@ const User = () => {
     return rows;
   }, [user]);
 
-  useEffect(() => {
-    const rows = renderUser();
-    setUserRows(rows);
-  }, [renderUser]);
+  useEffect(() => { 
+    if (!user) {
+      users && users.length > 0 ?
+
+        (async () => {      
+          try {
+            dispatch(setSelectedUser(id));            
+          } catch(error) {
+            console.log(error);
+          }
+        })() :
+
+        (async () => {      
+          try {
+            await setUsers(dispatch);
+          } catch(error) {
+            console.log(error);
+          }
+        })();
+
+    } else {      
+      const rows = renderUser(user);
+      setUserRows(rows);
+    }        
+  }, [dispatch, id, renderUser, user, users]);
+
 
   return(
     <div>

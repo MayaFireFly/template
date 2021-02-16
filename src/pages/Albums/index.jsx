@@ -10,6 +10,7 @@ import Spinner from '../../components/Spinner';
 import Menu from '../../components/Menu';
 
 import { setAlbums, setSelectedAlbum } from '../../store/slices/albums';
+import { setPhotos, setSelectedPhotos } from '../../store/slices/photos';
 
 
 const Albums = () => {
@@ -25,6 +26,7 @@ const Albums = () => {
     (async () => {      
       try {
         await setAlbums(dispatch);
+        await setPhotos(dispatch);
       } catch(error) {
         console.log(error);
       }
@@ -34,7 +36,8 @@ const Albums = () => {
   const renderAlbums = useCallback((albums) => {
     const rows = albums.map((album, idx) => (
       <div className = 'albums__row' key = {idx} onClick = {() => {
-        dispatch(setSelectedAlbum(album));
+        dispatch(setSelectedAlbum(album.id));
+        dispatch(setSelectedPhotos(album.id));
         history.push(match.url + '/' + album.id);
       }}>
         <div className = 'albums__cell'>{album.title}</div>
@@ -46,7 +49,7 @@ const Albums = () => {
   useEffect(() => {
     if (!loading) {
       const rows = renderAlbums(albums);
-      setAlbumsRows(rows);
+      setAlbumsRows(rows); 
     }
   }, [renderAlbums, loading, albums]);
 
