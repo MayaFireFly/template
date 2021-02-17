@@ -4,12 +4,11 @@ import { get } from 'lodash';
 import { useParams } from 'react-router-dom';
 
 import './Album.sass';
-import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
 import Header from '../../components/Header';
 import Spinner from '../../components/Spinner';
 import Menu from '../../components/Menu';
-import { Carousel } from 'react-responsive-carousel';
+import Carousel from '../../components/Carousel';
 
 import { setPhotos, setSelectedPhotos } from '../../store/slices/photos';
 import { setAlbums, setSelectedAlbum } from '../../store/slices/albums';
@@ -34,7 +33,6 @@ const Album = () => {
       rows.push(
         <div key = {idx} >
           <img 
-            //className = 'album__image' 
             src = {photo.url} 
             alt = {photo.title}
           />
@@ -91,7 +89,7 @@ const Album = () => {
   useEffect(() => {
     if (photosSelected.length > 0) {
       const rows = renderAlbum();
-      setAlbumRows(<div className = 'carousel__wrapper'><Carousel>{rows}</Carousel></div>);
+      setAlbumRows(<Carousel>{rows}</Carousel>);
     }
   }, [photosSelected, photosSelected.length, renderAlbum, album, title]);
 

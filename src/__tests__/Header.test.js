@@ -3,8 +3,6 @@ import ReactDOM from 'react-dom';
 
 import Header from '../components/Header';
 
-import back from '../assets/svg/back.svg';
-
 
 describe('Header', () => {
   it('render Header without crushing', () => {
